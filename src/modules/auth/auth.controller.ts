@@ -1,16 +1,29 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthenticateDto } from './dtos/authenticate.dto';
+import { SigninDto } from './dtos/signin.dto';
 import {
+    ApiBody,
     ApiOkResponse,
     ApiOperation,
     ApiResponse,
     ApiTags,
+    ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { SignUpDto } from './dtos/signup.dto';
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
+    @ApiOperation({ summary: 'Create user' })
+    @ApiBody({ type: SignUpDto })
+    @ApiOkResponse({ description: 'User created successfully.' })
+    @ApiResponse({ status: 400, description: 'Invalid data' })
+    @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+    @Post('signup')
+    async signup(@Body() signupDto: SignUpDto) {
+        return this.authService.signup(signupDto);
+    }
+
     @ApiOperation({ summary: 'Authenticate user' })
     @ApiOkResponse({ description: 'JWT token returned successfully.' })
     @ApiResponse({
@@ -19,7 +32,7 @@ export class AuthController {
     })
     @ApiResponse({ status: 401, description: 'Invalid credentials' })
     @Post('signin')
-    autenticate(@Body() authenticateDto: AuthenticateDto) {
-        return this.authService.authenticate(authenticateDto);
+    autenticate(@Body() signinDto: SigninDto) {
+        return this.authService.signin(signinDto);
     }
 }
