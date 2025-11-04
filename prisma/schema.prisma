@@ -1,68 +1,67 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/prisma"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model User {
-  id           String        @id @default(uuid()) @db.Uuid
-  name         String
-  email        String        @unique
-  password     String
-  categories     Category[]
-  transactions  Transaction[]
-  bankAccounts BankAccount[]
+    id           String        @id @default(uuid()) @db.Uuid
+    name         String
+    email        String        @unique
+    password     String
+    categories   Category[]
+    transactions Transaction[]
+    bankAccounts BankAccount[]
 
-  @@map("users")
+    @@map("users")
 }
 
 model BankAccount {
-  id             String          @id @default(uuid()) @db.Uuid
-  name           String
-  initialBalance Float           @map("initial_balance")
-  color          String
-  userId         String          @map("user_id") @db.Uuid
-  type           BankAccountType
-  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id             String          @id @default(uuid()) @db.Uuid
+    name           String
+    initialBalance Float           @map("initial_balance")
+    color          String
+    userId         String          @map("user_id") @db.Uuid
+    type           BankAccountType
+    user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("bank_accounts")
+    @@map("bank_accounts")
 }
 
 model Category {
-  id     String          @id @default(uuid()) @db.Uuid
-  userId String          @db.Uuid
-  name   String
-  icon   String
-  type   TransactionType
-  users  User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id     String          @id @default(uuid()) @db.Uuid
+    userId String          @db.Uuid
+    name   String
+    icon   String
+    type   TransactionType
+    users  User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Transaction {
-  id              String   @id @default(uuid()) @db.Uuid
-  userId          String   @db.Uuid
-  categoryId      String
-  name            String
-  value           String
-  date            DateTime
-  bank_account_id String
-  users           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id              String   @id @default(uuid()) @db.Uuid
+    userId          String   @db.Uuid
+    categoryId      String
+    name            String
+    value           String
+    date            DateTime
+    bank_account_id String
+    users           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum BankAccountType {
-  CHECKING
-  INVESTMENT
-  CASH
+    CHECKING
+    INVESTMENT
+    CASH
 
-  @@map("bank_account_type")
+    @@map("bank_account_type")
 }
 
 enum TransactionType {
-  INCOME
-  OUTCOME
+    INCOME
+    OUTCOME
 
-  @@map("transaction_type")
+    @@map("transaction_type")
 }
