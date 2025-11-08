@@ -14,7 +14,7 @@ import { SignUpDto } from './dtos/signup.dto';
 export class AuthService {
     constructor(
         private readonly usersRepo: UsersRepository,
-        private readonly jwtService: JwtService,
+        private readonly jwtService: JwtService
     ) {}
 
     async signin(signinDto: SigninDto) {
