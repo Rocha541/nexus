@@ -8,7 +8,7 @@ export function setupSwagger(app: INestApplication) {
         .setDescription(
             'Documentação da API da Fincheck, uma API para gerenciamento de financas pessoais',
         )
-        .setVersion('0.0.1')
+        .setVersion('1.0.0')
         .build();
 
     const document = SwaggerModule.createDocument(app, config);
