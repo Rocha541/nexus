@@ -6,7 +6,7 @@ export function setupSwagger(app: INestApplication) {
     const config = new DocumentBuilder()
         .setTitle('Fincheck')
         .setDescription(
-            'Documentação da API da Fincheck, uma API para gerenciamento de financas pessoais',
+            'Documentação da API da Fincheck, uma API para gerenciamento de financas pessoais'
         )
         .setVersion('1.0.0')
         .build();
@@ -24,6 +24,6 @@ export function setupSwagger(app: INestApplication) {
         apiReference({
             content: document,
             theme: 'kepler',
-        }),
+        })
     );
 }

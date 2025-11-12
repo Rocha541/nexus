@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { SigninDto } from './dtos/signin.dto';
+import { AuthService } from './auth.service.js';
+import { SigninDto } from './dtos/signin.dto.js';
 import {
     ApiBody,
     ApiOkResponse,
@@ -16,7 +16,7 @@ export class AuthController {
     constructor(private readonly authService: AuthService) {}
     @ApiOperation({ summary: 'Create user' })
     @ApiBody({ type: SignUpDto })
-    @ApiOkResponse({ description: 'User created successfully.' })
+    @ApiOkResponse({ description: 'User created successfully' })
     @ApiResponse({ status: 400, description: 'Invalid data' })
     @ApiUnauthorizedResponse({ description: 'Unauthorized' })
     @Post('signup')
