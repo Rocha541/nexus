@@ -1,0 +1,23 @@
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma.service';
+import { Prisma } from '@prisma/client';
+
+@Injectable()
+export class BankAccountsRepository {
+    constructor(private readonly prismaService: PrismaService) {}
+    create(createDto: Prisma.BankAccountCreateArgs) {
+        return this.prismaService.bankAccount.create(createDto);
+    }
+    findMany(findManyDto: Prisma.BankAccountFindManyArgs) {
+        return this.prismaService.bankAccount.findMany(findManyDto);
+    }
+    findFist(findFirstDto: Prisma.BankAccountFindFirstArgs) {
+        return this.prismaService.bankAccount.findFirst(findFirstDto);
+    }
+    update(updadteDto: Prisma.BankAccountUpdateArgs) {
+        return this.prismaService.bankAccount.update(updadteDto);
+    }
+    delete(deleteDto: Prisma.BankAccountDeleteArgs) {
+        return this.prismaService.bankAccount.delete(deleteDto);
+    }
+}
