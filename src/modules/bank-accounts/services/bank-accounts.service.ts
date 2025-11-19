@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { CreateBankAccountDto } from '../dto/create-bank-account.dto';
 import { UpdateBankAccountDto } from '../dto/update-bank-account.dto';
 import { BankAccountsRepository } from '../../../shared/database/repositories/bank-accounts.repositories';
-import { ValidateOwnershipBankAccountsService } from './validate-bank-account-ownership.service';
+import { ValidadeOwnershipBankAccountsService } from './validade-bank-account-ownership.service';
 
 @Injectable()
 export class BankAccountsService {
     constructor(
         private readonly bankAccountsRepo: BankAccountsRepository,
-        private readonly validateOwnershipBankAccountsService: ValidateOwnershipBankAccountsService
+        private readonly validateOwnershipBankAccountsService: ValidadeOwnershipBankAccountsService
     ) {}
     create(userId: string, createBankAccountDto: CreateBankAccountDto) {
         const { color, initialBalance, name, type } = createBankAccountDto;

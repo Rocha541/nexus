@@ -43,11 +43,12 @@ model Category {
 model Transaction {
     id              String   @id @default(uuid()) @db.Uuid
     userId          String   @db.Uuid
-    categoryId      String
+    bank_account_id String  @db.Uuid
+    categoryId      String?  @db.Uuid
     name            String
-    value           String
+    value           Float
     date            DateTime
-    bank_account_id String
+    type            TransactionType
     users           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
