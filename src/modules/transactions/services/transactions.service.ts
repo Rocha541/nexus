@@ -5,6 +5,7 @@ import { UpdateTransactionDto } from '../dto/update-transaction.dto';
 import { TransactionRepository } from '../../../shared/database/repositories/transactions.repositories';
 import { ValidadeOwnershipBankAccountsService } from '../../bank-accounts/services/validade-bank-account-ownership.service';
 import { ValidadeOwnershipTransactionsService } from './validade-transactions-ownership.service';
+import { TransactionType } from '../entities/Transaction';
 
 @Injectable()
 export class TransactionsService {
@@ -36,9 +37,25 @@ export class TransactionsService {
         });
     }
 
-    findMany(userId: string) {
+    findAllByUserId(
+        userId: string,
+        filters: {
+            month: number;
+            year: number;
+            bankAccountId?: string;
+            type?: TransactionType;
+        }
+    ) {
         return this.transactionRepo.findMany({
-            where: { userId },
+            where: {
+                userId,
+                bank_account_id: filters.bankAccountId,
+                type: filters.type,
+                date: {
+                    gte: new Date(Date.UTC(filters.year, filters.month)),
+                    lt: new Date(Date.UTC(filters.year, filters.month + 1)),
+                },
+            },
         });
     }
 
