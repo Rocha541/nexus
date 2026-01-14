@@ -1,9 +1,12 @@
-import "./index.css";
+import './index.css'
 
 function App() {
-    return <div>
-        <h1 className="text-purple-900 text-4xl bg-blue-800">FinCheck</h1>
-    </div>;
+    return (
+        <div>
+            <h1 className='text-emerald-50 text-4xl bg-emerald-800'>FinCheck</h1>
+            <p className='text-green-600'>Your personal finance tracker</p>
+        </div>
+    )
 }
 
-export default App;
+export default App
