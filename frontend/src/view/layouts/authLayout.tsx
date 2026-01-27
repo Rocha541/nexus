@@ -1,23 +1,25 @@
 import payments from '../../assets/payments.svg'
+import Logo from '../../assets/Logo.svg'
+
+import { Outlet } from '@tanstack/react-router'
 
 export default function AuthLayout() {
     return (
-        <div className='flex w-full h-screen'>
-            <div className='w-1/2 bg-ciano-500 h-full'></div>
-            <div className='w-1/2 h-full flex justify-center items-center p-8 '>
+        <div className='  flex w-full h-screen bg-zinc-50'>
+            <div className='w-full lg:w-1/2  h-full flex justify-center items-center flex-col gap-16'>
+                <img src={Logo} className='w-10' />
+                 <div className=" w-full max-w-126 px-8 ">
+                    <Outlet />
+                </div>
+
+            </div>
+            <div className='w-1/2 h-full justify-center items-center flex-col gap-16 p-8 hidden lg:flex '>
                 <img
                     src={payments}
                     className=' object-contain w-147 h-full w-max-[30px] rounded-4xl'
                 />
-                <div
-                    className='bg-emerald-500  min-h-min max-w-96 p-10
-                 rounded-4xl absolute bottom-75 right-30 text-align '
-                >
-                    <p className='font-serif text-zinc-50 text-lg font-medium'>
-                        Organize e acompanhe suas finanças pessoais com o Fincheck. <br />
-                        Simples, seguro e 100% gratuito.
-                    </p>
-                </div>
+               
+                
             </div>
         </div>
     )
