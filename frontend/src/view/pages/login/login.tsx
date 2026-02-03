@@ -1,106 +1,105 @@
 import { Button } from '@/components/ui/button'
 import { FieldLabel } from '@/components/ui/field'
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+
 import { useForm } from 'react-hook-form'
 
 import { MailIcon, UserLock } from 'lucide-react'
+import { loginSchema } from '@/schemas/auth/login-schema'
 
-const formSchema = z.object({
-    title: z
-        .string()
-        .min(5, 'Bug title must be at least 5 characters.')
-        .max(32, 'Bug title must be at most 32 characters.'),
-    description: z
-        .string()
-        .min(20, 'Description must be at least 20 characters.')
-        .max(100, 'Description must be at most 100 characters.'),
-})
-
-function login() {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+function Login() {
+    const navigate = useNavigate()
+    const form = useForm<z.infer<typeof loginSchema>>({
+        resolver: zodResolver(loginSchema),
         defaultValues: {
-            title: '',
-            description: '',
+            email: '',
+            password: '',
         },
     })
-     function onSubmit(data: z.infer<typeof formSchema>) {
+    function onSubmit(data: z.infer<typeof loginSchema>) {
+        navigate({ to: '/dashboard' })
         console.log(data)
-     }
+    }
     return (
         <>
             <div className='w-full h-full  gap-3 flex flex-col justify-center items-center  '>
                 <div>
-                    <h1 className='font-serif  font-bold text-2xl text-center tracking-[-1px]'>
+                    <h1 className='font-sora  font-semibold text-2xl text-center tracking-[-1px]'>
                         Entre em sua conta
                     </h1>
                 </div>
                 <div className='flex gap-1.5'>
-                    <p className='font-serif font-normal  text-zinc-900 tracking-[-1px] '>
+                    <p className='font-outfit font-normal  text-zinc-900 tracking-[-1px] '>
                         Novo por aqui?
                     </p>
                     <Link
                         to='/register'
-                        className='font-serif font-semibold text-emerald-500 tracking-[-0.5px] '
+                        className='font-outfit font-semibold text-green-600 tracking-[-0.5px] '
                     >
-                        Crie uma conta
+                        Crie sua conta em segundos
                     </Link>
                 </div>
-                <div className='w-full max-w-110 flex flex-col gap-y-3'>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-y-2 ' action=''>
-                        <FieldLabel
-                            className='font-serif font-bold text-zinc-900 px-3 '
-                            htmlFor='inline-end-input'
-                        >
+                <div className='w-full max-w-110 flex  flex-col gap-y-3'>
+                    <form
+                    noValidate
+                     onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-y-2'>
+                        <FieldLabel className='font-sora font-semibold text-zinc-900 px-3'>
                             E-mail
                         </FieldLabel>
-                        <InputGroup className='h-13'>
-                            <InputGroupAddon align='inline-start'>
-                                <MailIcon className='text-emerald-500' />
-                            </InputGroupAddon>
+
+                        <InputGroup className={`h-13 border-green-700 ${form.formState.errors.email ? 'border-red-400' : ''}`}>
                             <InputGroupInput
-                                id='inline-end-input'
                                 type='email'
                                 placeholder='Enter email'
+                                {...form.register('email')}
                             />
+                            <InputGroupAddon align='inline-start'>
+                                <MailIcon className='text-green-600' />
+                            </InputGroupAddon>
                         </InputGroup>
-                        <FieldLabel
-                            className='font-serif font-bold text-zinc-900 px-3  mt-2'
-                            htmlFor='inline-end-input'
-                        >
+
+                        {form.formState.errors.email && (
+                            <p className='text-sm font-outfit font-light text-red-500 px-3'>
+                                {form.formState.errors.email.message}
+                            </p>
+                        )}
+
+                        <FieldLabel className='font-sora font-medium text-zinc-900 px-3 mt-2'>
                             Senha
                         </FieldLabel>
-                        <InputGroup className='h-13 autofill:bg-transparent'>
-                            <InputGroupAddon align='inline-start'>
-                                <UserLock className='text-emerald-500' />
-                            </InputGroupAddon>
+
+                        <InputGroup className={`h-13 border-green-700 ${form.formState.errors.password ? 'border-red-400' : ''}`}>
                             <InputGroupInput
-                                id='inline-end-input'
+                          
                                 type='password'
                                 placeholder='Enter password'
+                                {...form.register('password')}
                             />
+                            <InputGroupAddon align='inline-start'>
+                                <UserLock className='text-green-600' />
+                            </InputGroupAddon>
                         </InputGroup>
-                    </form>
 
-                    <Link to='/dashboard'>
-                        <Button className='h-13 mt-3 text-md w-full bg-emerald-500 hover:bg-green-700 font-serif font-bold text-zinc-50'>
-                            Entrar
+                        {form.formState.errors.password && (
+                            <p className='text-sm font-outfit font-light text-red-500 px-3'>
+                                {form.formState.errors.password.message}
+                            </p>
+                        )}
+
+                        <Button
+                            type='submit'
+                            className='h-13 w-4/5 mx-auto mt-3  font-outfit  font-semibold text-green-700 bg-green-200 border border-green-700 shadow-xl hover:bg-green-700 hover:border-green-200 hover:border-2 hover:text-green-200'
+                            disabled={form.formState.isSubmitting}
+                        >
+                            {form.formState.isSubmitting ? 'Entrando...' : 'Entrar'}
                         </Button>
-                    </Link>
+                    </form>
                 </div>
             </div>
         </>
     )
 }
-export default login
-function zodResolver(formSchema: z.ZodObject<{ title: z.ZodString; description: z.ZodString }, z.core.$strip>) {
-    throw new Error('Function not implemented.')
-}
-
-function useForm<T>(arg0: { resolver: void; defaultValues: { title: string; description: string } }) {
-    throw new Error('Function not implemented.')
-}
-
+export default Login

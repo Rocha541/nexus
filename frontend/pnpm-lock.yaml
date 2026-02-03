@@ -48,8 +48,8 @@ importers:
         specifier: ^4.1.18
         version: 4.1.18
       zod:
-        specifier: ^4.3.5
-        version: 4.3.5
+        specifier: '3'
+        version: 3.25.76
     devDependencies:
       '@eslint/js':
         specifier: ^9.39.1
